@@ -2,7 +2,7 @@ from django.db import models
 from django.utils.encoding import force_text
 
 from graphene import (ID, Boolean, Dynamic, Enum, Field, Float, Int, List,
-                      NonNull, String, UUID)
+                      NonNull, String, UUID, ObjectType)
 from graphene.types.datetime import DateTime, Time
 from graphene.types.json import JSONString
 from graphene.utils.str_converters import to_camel_case, to_const
@@ -83,11 +83,11 @@ def convert_django_field(field, registry=None):
 def convert_field_to_string(field, registry=None):
     return String(description=field.help_text, required=not field.null)
 
-class File(graphene.ObjectType):
-    name = graphene.String()
-    url = graphene.String()
-    content_type = graphene.String()
-    size = graphene.Int()
+class File(ObjectType):
+    name = String()
+    url = String()
+    content_type = String()
+    size = Int()
 
 @convert_django_field.register(models.FileField)
 def convert_field_to_file(field, registry=None):
