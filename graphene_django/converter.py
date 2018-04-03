@@ -83,6 +83,23 @@ def convert_django_field(field, registry=None):
 def convert_field_to_string(field, registry=None):
     return String(description=field.help_text, required=not field.null)
 
+class File(graphene.ObjectType):
+    name = graphene.String()
+    url = graphene.String()
+    content_type = graphene.String()
+    size = graphene.Int()
+
+@convert_django_field.register(models.FileField)
+def convert_field_to_file(field, registry=None):
+    if type(field) == models.FileField:
+        return String(description=field.help_text, required=not field.null)
+    return File(
+        name='lel',
+        url='lel',
+        content_type='lel',
+        size=1
+    )
+
 
 @convert_django_field.register(models.AutoField)
 def convert_field_to_id(field, registry=None):
